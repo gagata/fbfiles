@@ -74,7 +74,7 @@ div#bgf-navbar a:hover {
 }
 .file .icon {
     width: 250px;
-    background-image: url("/static/file.png");
+    background-image: url("/images/file.png");
     background-position: top center;
     background-size: 80px;
     background-repeat: no-repeat;

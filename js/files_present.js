@@ -51,9 +51,9 @@ function prepareFile(file) {
     var idx = extensions.indexOf(str.substring(str.lastIndexOf('.')+1,str.length))
     var icon;
     if(idx != -1){
-        icon =  $("<img/>").addClass("icon_img").attr("src","/static/icons/"+extensions[idx]+".png");
+        icon =  $("<img/>").addClass("icon_img").attr("src","/images/"+extensions[idx]+".png");
     } else {
-        icon =  $("<img/>").addClass("icon_img").attr("src","/static/file.png");
+        icon =  $("<img/>").addClass("icon_img").attr("src","/images/file.png");
     }
      
     div.append(icon);
