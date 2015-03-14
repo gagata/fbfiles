@@ -1,4 +1,5 @@
 var APP_ID = '1406377203009042';
+var APP_NAMESPACE = 'browse-group-files';
 
 $(document).ready(function () {
 
@@ -25,7 +26,7 @@ function login(callback) {
 function loginCallback(response) {
     console.log('loginCallback',response);
     if(response.status != 'connected') {
-        top.location.href = 'https://www.facebook.com/appcenter/YOUR_APP_NAMESPACE';
+        top.location.href = 'https://www.facebook.com/appcenter/' + APP_NAMESPACE;
     }
 }
 
@@ -45,4 +46,6 @@ function onAuthResponseChange(response) {
 
 function showHome() {
     console.log('show home...');
+    console.log(window.location.hash);
+    show_content();
 }

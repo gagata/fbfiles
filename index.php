@@ -19,12 +19,11 @@
     <!--TODO: test wszystkiego - co dziala, co nie, review kodu jsow-->
     <link href="styles/styles.css" rel="stylesheet">
 
-    <!--<script src="js/fb_utils.js" type="text/javascript"></script>-->
-    <!--<script src="js/change_view.js" type="text/javascript"></script>-->
-    <!--<script src="js/groups.js" type="text/javascript"></script>-->
-    <!--<script src="js/login.js" type="text/javascript"></script>-->
-    <!--<script src="js/display_files.js" type="text/javascript"></script>-->
-    <!--<script src="js/search.js" type="text/javascript"></script>-->
+    <script src="js/change_view.js" type="text/javascript"></script>
+    <script src="js/groups.js" type="text/javascript"></script>
+    <script src="js/login.js" type="text/javascript"></script>
+    <script src="js/display_files.js" type="text/javascript"></script>
+    <script src="js/search.js" type="text/javascript"></script>
 
     <script src="js/core.js" type="text/javascript"></script>
 
