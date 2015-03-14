@@ -23,9 +23,9 @@
 
         <script src="js/core.js" type="text/javascript"></script>
         <script src="js/groups_main.js" type="text/javascript"></script>
-        <script src="js/notify.js" type="text/javascript"></script>
-        <script src="js/about.js" type="text/javascript"></script>
-        <script src="js/contact.js" type="text/javascript"></script>
+        <script src="js/notify_main.js" type="text/javascript"></script>
+        <script src="js/about_main.js" type="text/javascript"></script>
+        <script src="js/contact_main.js" type="text/javascript"></script>
         <script src="js/files_main.js" type="text/javascript"></script>
         <script src="js/files_present.js" type="text/javascript"></script>
         <script src="js/utils.js" type="text/javascript"></script>
@@ -56,7 +56,9 @@
         </div>
 
 
-        <div id="page" class="container body"></div>
+        <div id="page" class="container body">
+            <!-- content loaded dynamically -->
+        </div>
 
 
         <!-- Latest compiled and minified JavaScript -->
