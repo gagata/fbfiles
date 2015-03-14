@@ -1,0 +1,130 @@
+* {
+    font-size: 16px;   
+}
+.content, .body, .files {
+    margin-top: 50px;
+}
+
+.folder:hover, .file:hover {
+    background: silver;
+    cursor: pointer;
+}
+
+/* ==== grid view ==== */
+
+#search_box {
+	width: 93%;
+}
+
+.back_to_root {
+	float: right;
+	margin-top: 40px;
+	margin-right: 80px;
+
+}
+
+.grid .folder {
+    width: 250px;
+    height: 180px;
+    margin-right: 20px;
+    float: left;
+    margin-bottom: 10px;
+    border: 1px solid gray;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.file {
+    width: 250px;
+    height: 280px;
+    margin-right: 20px;
+    float: left;
+    margin-bottom: 10px;
+    border: 1px solid gray;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.grid:after {
+    display: block;
+    clear: both;
+}
+
+.grid .folder .icon img, .file .icon img {
+    width: 100px;
+}
+.file .icon {
+    width: 250px;
+    background-image: url("/static/file.png");
+    background-position: top center;
+    background-size: 80px;
+    background-repeat: no-repeat;
+    height: 200px;
+    margin-top:10px;
+    border-bottom: 1px solid gray;
+}
+
+.file .icon_img {
+	height: 100px;
+	margin-bottom: 50px;
+	margin-top: 50px;
+}
+
+
+.file .post {
+    font-size: 10px;
+    overflow: hidden;
+    height: 15px;
+    line-height: 15px;
+}
+.file .post:after {
+    content: "...";
+    font-size: 10px;
+    line-height: 15px;
+}
+.grid .folder .name, .file .name {
+    font-weight: bold;
+}
+.grid .folder .date, .file .date {
+    font-style: italic;
+}
+
+.iframe, .embed {
+    display: inline-block;
+    width: 250px;
+    height: 200px;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+.embed, .file .icon {
+    -webkit-box-shadow: inset 0px -112px 14px -106px rgba(0,0,0,0.4);
+    -moz-box-shadow: inset 0px -112px 14px -106px rgba(0,0,0,0.4);
+    box-shadow: inset 0px -112px 14px -106px rgba(0,0,0,0.4);
+}
+
+.embed {
+	text-align:center;
+}
+
+.embed .description {
+    display: none;
+}
+.embed .provider {
+    display: block;
+}
+.embed .thumb {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	margin-top: 40px;
+	height: 100px;
+}
+
+.files {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.folder .starred {
+color: papayawhip;
+}
