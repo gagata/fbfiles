@@ -1,6 +1,6 @@
 var APP_ID = '1406377203009042';
 
-$(document).ready({
+$(document).ready(function {
 
     //inicjacja SDK
     FB.init({
