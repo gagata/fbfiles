@@ -1,6 +1,14 @@
+/*colors used:*/
+/*dark (midnight blue): #2c3e50*/
+/*yellow (sun flower): #f1c40f*/
+/*light (clouds): #ecf0f1*/
+
 * {
     font-size: 16px;   
     font-family: 'Lato', sans-serif;
+}
+body {
+    background: #ecf0f1;
 }
 
 div#bgf-navbar, div#bfg-footer {
@@ -9,6 +17,9 @@ div#bgf-navbar, div#bfg-footer {
 }
 div#bgf-navbar a {
     color: white !important;
+}
+div#bgf-navbar a:hover {
+    color: #f1c40f !important;
 }
 
 .content, .body, .files {
