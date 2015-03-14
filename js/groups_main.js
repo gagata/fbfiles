@@ -1,16 +1,20 @@
 function groups_main() {
     console.log("groups_main");
-    $("#view_files").fadeOut(function () {
-        $(this).empty();
-        $("h1").text("Your group folders");
-        $("#view").fadeIn();
-        $("#starred_view").fadeIn();
-        getGroups();
-    });
-    $(".back_to_root").remove();
 
-    $('#search_box').keyup(filter);
+    $('#page').load('/content/groups.html', function() {
+        $("#view_files").fadeOut(function () {
+            $(this).empty();
+            $("h1").text("Your group folders");
+            $("#view").fadeIn();
+            $("#starred_view").fadeIn();
+            getGroups();
+        });
+        $(".back_to_root").remove();
+
+        $('#search_box').keyup(filter);
+    });
 }
+
 
 function getGroups() {
     FB.api('/me?fields=id,name,updated_time,groups.icon_size(34){id,name,icon,updated_time}', function(response) {
