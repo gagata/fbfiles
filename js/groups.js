@@ -1,3 +1,8 @@
+function groups_main() {
+    console.log("groups_main");
+}
+
+
 function checkIfFile(fileName){
     var file_hosting_prefixes = ['https://docs.google', 'https://drive.google','https://www.dropbox.com/s'];
     for(var i=0; i<file_hosting_prefixes.length; i++){

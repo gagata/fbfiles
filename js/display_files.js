@@ -181,11 +181,6 @@ function convertDateFormat(rawDate) {
 $(function() {
     //show_content();
 
-    $(window).on("hashchange", function() {
-        show_content();
-        $("#search_box").val("");
-    });
-
     $(document).on("click", ".file", function () {
         window.open($(this).attr("id"), "_blank"); 
     });

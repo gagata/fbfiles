@@ -35,7 +35,7 @@ function onStatusChange(response) {
     if( response.status != 'connected' ) {
         login(loginCallback);
     } else {
-        showHome();
+        route();
     }
 }
 
@@ -44,8 +44,31 @@ function onAuthResponseChange(response) {
     console.log('onAuthResponseChange', response);
 }
 
-function showHome() {
-    console.log('show home...');
-    console.log(window.location.hash);
-    show_content();
+//routing - opisuje jak maja sie zmieniac strony i ich zawartosc zgodnie z kliknieciami usera (operujemy na hashu)
+//wolane zawsze w momencie kiedy mamy zmiane statusu aplikacji (a user jest zalogowany)
+function route() {
+    var hash = window.location.hash;
+
+    switch(hash) {
+        
+        case "":
+        case "#groups":
+            console.log("main page");
+            groups_main();
+        break;
+        case "#about":
+            console.log("#about");
+            about_main();
+        break;
+        case "#notify":
+            console.log("#notify");
+            notify_main();
+        break;
+        case "#contact":
+            console.log("#contact");
+            contact_main();
+        default:
+            console.log("404?");
+
+    }
 }
