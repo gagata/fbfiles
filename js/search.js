@@ -3,8 +3,9 @@ function escapeSpecials(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
-/* Hides / shows elements of class 'item',
-   according to the query inside the search box. */ 
+/* Shows the elements of class 'item' that contain the
+   search query either in their 'name' or 'post' field,
+   and hides the remaining ones. */ 
 function filter() {
     var query = $('#search_box').val();
     var escapedQuery = escapeSpecials(query);
