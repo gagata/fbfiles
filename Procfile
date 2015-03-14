@@ -1,2 +1,1 @@
-web: gunicorn fbfiles.wsgi --log-file -
-
+web: vendor/bin/heroku-php-apache2 .
