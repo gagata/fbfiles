@@ -94,6 +94,8 @@ function onAuthResponseChange(response) {
 //wolane zawsze w momencie kiedy mamy zmiane statusu aplikacji (a user jest zalogowany)
 function route() {
     var hash = window.location.hash;
+    console.log("window location hash:")
+    console.log(hash);
 
     cleanScreen();
 
@@ -118,8 +120,10 @@ function route() {
         break;
         default:
             var files_prefix = "#files_";
-            if (hash.startsWith(files_prefix)) {
+            console.log(hash.indexOf(files_prefix));
+            if (hash.indexOf(files_prefix) == 0) {
                 console.log("#files");
+                console.log(hash.substring(files_prefix.length));
                 files_main(hash.substring(files_prefix.length));
             } else {
                 console.log("404?");

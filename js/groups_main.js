@@ -8,6 +8,8 @@ function groups_main() {
         getGroups();
     });
     $(".back_to_root").remove();
+
+    $('#search_box').keyup(filter);
 }
 
 function getGroups() {
@@ -46,7 +48,7 @@ function present_folders(folders) {
     $("#starred_view").empty();
     for (var i = 0; i < folders.length; i++) {
         var div = $("<div/>").addClass("folder").attr("id", folders[i].id).addClass("item");
-        var a = $("<a/>").attr("href", "#"+folders[i].id);
+        var a = $("<a/>").attr("href", "#files_"+folders[i].id);
         var icon = $("<div/>").addClass("icon");
         var img = $("<img/>").attr("src", folders[i].icon);
         
@@ -85,4 +87,28 @@ function present_folders(folders) {
         }
         
     }
+}
+
+/* Escapes special characters from the provided string. */
+function escapeSpecials(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+/* Shows the elements of class 'item' that contain the
+   search query either in their 'name' or 'post' field,
+   and hides the remaining ones. */ 
+function filter() {
+    var query = $('#search_box').val();
+    var escapedQuery = escapeSpecials(query);
+    var regex = new RegExp(escapedQuery, 'i');
+
+    $('.item').each(function() {
+        if (query == null ||
+            ($(this).find('.name').length > 0 && $(this).find('.name').html().match(regex)) ||
+            ($(this).find('.post').length > 0 && $(this).find('.post').html().match(regex))) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
 }
