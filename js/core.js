@@ -52,6 +52,8 @@ function onAuthResponseChange(response) {
 //wolane zawsze w momencie kiedy mamy zmiane statusu aplikacji (a user jest zalogowany)
 function route() {
     var hash = window.location.hash;
+    console.log("window location hash:")
+    console.log(hash);
 
     cleanScreen();
 
