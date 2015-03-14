@@ -17,7 +17,7 @@
         <script src="//connect.facebook.net/en_US/sdk.js"></script>
 
         <!-- czcionka Lato -->
-        <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
         <link href="styles/styles.css" rel="stylesheet">
 

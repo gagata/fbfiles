@@ -1,6 +1,8 @@
 var APP_ID = '1406377203009042';
 var APP_NAMESPACE = 'browse-group-files';
 
+var PERMISSIONS = {};
+
 $(document).ready(function () {
 
     //inicjacja SDK
@@ -26,12 +28,31 @@ function login(callback) {
     FB.login(callback);
 }
 
+function exit() {
+    top.location.href = 'https://www.facebook.com/appcenter/' + APP_NAMESPACE;
+}
+
 // callback do logowania
 function loginCallback(response) {
     console.log('loginCallback',response);
     if(response.status != 'connected') {
-        top.location.href = 'https://www.facebook.com/appcenter/' + APP_NAMESPACE;
+        exit();
     }
+}
+
+function reRequest(scope, callback) {
+  FB.login(callback, { scope: scope, auth_type:'rerequest'});
+}
+
+var CONFIRM_YES = 1, CONFIRM_NO = 0;
+
+function showConfirmationPopup(message,callback) {
+  var c = confirm(message);
+  if(c){ 
+    callback(CONFIRM_YES);
+  } else {
+    callback(CONFIRM_NO);
+  }
 }
 
 // zmienia sie status (aplikacja zostala zaakceptowana przez Usera)
@@ -39,8 +60,29 @@ function onStatusChange(response) {
     if( response.status != 'connected' ) {
         login(loginCallback);
     } else {
-        route();
+        if (!hasPermission['user_groups'] && !PERMISSIONS['user_groups']) {
+            if (!PERMISSIONS['user_groups']) {
+                PERMISSIONS['user_groups'] = true;
+                reRequest('user_groups', function() {
+                    route();
+                });
+            } else {
+                // pytany, ale nie dal dostepu do grup...
+                exit();
+            }
+
+        } else {
+            route();
+        }
     }
+}
+
+function hasPermission(permission) {
+    for (var i in PERMISSIONS) {
+        if (PERMISSIONS[i].permission == permission && PERMISSIONS[i].status == 'granted') 
+            return true;
+    }
+    return false;
 }
 
 // przyszla odpowiedz od uzytkownika
