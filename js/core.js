@@ -60,14 +60,15 @@ function onStatusChange(response) {
     if( response.status != 'connected' ) {
         login(loginCallback);
     } else {
-        if (!hasPermission['user_groups'] && !PERMISSIONS['user_groups']) {
+        // tu pytamy o dodatkowe uprawnienia, ktorych moze nam brakowac...
+        if (!hasPermission('user_groups')) {
             if (!PERMISSIONS['user_groups']) {
                 PERMISSIONS['user_groups'] = true;
                 reRequest('user_groups', function() {
                     route();
                 });
             } else {
-                // pytany, ale nie dal dostepu do grup...
+                // pytany, ale nie dal dostepu do grup, wiec nie ma tu nic do roboty...
                 exit();
             }
 
