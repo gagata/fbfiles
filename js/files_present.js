@@ -32,15 +32,20 @@ function files_present(files) {
 }
 
 function prepareGooglePreview(file) {
-    var div = $("<div/>").addClass("file").attr("id", file.link).addClass("item");
-    var iframe = $("<iframe/>").attr("src", file.link).addClass("iframe");
+    var link = file.link;
+    var suffix = "/edit";
+    if (endsWith(link, suffix) {
+        link = link.substring(0, link.length - suffix.length) + "/preview"
+    }
+    var div = $("<div/>").addClass("file").attr("id", link).addClass("item");
+    var iframe = $("<iframe/>").attr("src", link).addClass("iframe");
     div.append(iframe);
     var date = $("<div/>").text(convertDateFormat(file.date)).addClass("date");
     div.append(date);
     var post = $("<div/>").text(file.post).addClass("post");
     div.append(post);
-    var link = $("<div/>").text("Show");
-    div.append(link);
+    var show = $("<div/>").text("Show");
+    div.append(show);
     return div;
 }
 
@@ -109,4 +114,8 @@ function convertDateFormat(rawDate) {
     var date = new Date(rawDate);
     return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
         + ' ' + date.getHours() + ':' + date.getMinutes();
+}
+
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
