@@ -53,6 +53,8 @@ function onAuthResponseChange(response) {
 function route() {
     var hash = window.location.hash;
 
+    cleanScreen();
+
     switch(hash) {
         
         case "":
@@ -73,7 +75,13 @@ function route() {
             contact_main();
         break;
         default:
-            console.log("404?");
+            var files_prefix = "#files_";
+            if (hash.startsWith(files_prefix)) {
+                console.log("#files");
+                files_main(hash.substring(files_prefix.length));
+            } else {
+                console.log("404?");
+            }
 
     }
 }

@@ -24,6 +24,8 @@
     <script src="js/notify.js" type="text/javascript"></script>
     <script src="js/about.js" type="text/javascript"></script>
     <script src="js/contact.js" type="text/javascript"></script>
+    <script src="js/files.js" type="text/javascript"></script>
+    <script src="js/utils.js" type="text/javascript"></script>
 
 
 </head>
