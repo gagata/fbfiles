@@ -17,6 +17,10 @@ $(document).ready(function () {
 
 });
 
+$(window).on('hashchange', function() {
+    route();
+});
+
 // obsluga logowania
 function login(callback) {
     FB.login(callback);
@@ -67,6 +71,7 @@ function route() {
         case "#contact":
             console.log("#contact");
             contact_main();
+        break;
         default:
             console.log("404?");
 
