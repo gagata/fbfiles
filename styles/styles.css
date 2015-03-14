@@ -31,11 +31,8 @@ div#bgf-navbar a:hover {
     cursor: pointer;
 }
 
-/* ==== grid view ==== */
+/* ==== list view ==== */
 
-#search_box {
-	width: 93%;
-}
 
 .back_to_root {
 	float: right;
@@ -44,15 +41,51 @@ div#bgf-navbar a:hover {
 
 }
 
-.grid .folder {
-    width: 250px;
-    height: 180px;
-    margin-right: 20px;
-    float: left;
+/*folders - list view styling*/
+
+.list .folder {
+    width: 100%;
+    height: 40px;
     margin-bottom: 10px;
-    border: 1px solid gray;
+    border: 1px solid silver;
     text-align: center;
+    background: white;
+    border-radius: 5px;
 }
+
+.list .folder button {
+    float: right;
+    margin-top: 4px;
+    width: 40px;
+    border-left: 1px dashed silver;
+    color: #f1c40f !important;
+}
+.list .folder a {
+    display: block;
+    float: left;
+    width: 80%;
+    color: grey;
+}
+
+.list .folder a .icon {
+    display: block;
+    float: left;
+    margin-top: 5px;
+    width: 40px;
+    text-align: center;
+    border-right: 1px dashed silver;
+    height: 32px;
+}
+
+.list .folder a .name {
+    text-align: left;
+    padding-left: 60px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 6px;
+}
+
+/*folders - list view styling - end*/
 
 .file {
     width: 250px;
@@ -70,7 +103,7 @@ div#bgf-navbar a:hover {
 }
 
 .grid .folder .icon img, .file .icon img {
-    width: 100px;
+    width: 32px;
 }
 .file .icon {
     width: 250px;
@@ -100,9 +133,6 @@ div#bgf-navbar a:hover {
     content: "...";
     font-size: 10px;
     line-height: 15px;
-}
-.grid .folder .name, .file .name {
-    font-weight: bold;
 }
 .grid .folder .date, .file .date {
     font-style: italic;

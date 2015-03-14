@@ -64,9 +64,9 @@
 
                 <div class="files">
                     <!--Tutaj bedzie for po wszystkich dostepnych folderach -->
-                    <div class="grid" id="starred_view"></div>
-                    <div class="grid" id="view"></div>
-                    <div class="grid" id="view_files"></div>
+                    <div class="list" id="starred_view"></div>
+                    <div class="list" id="view"></div>
+                    <div class="list" id="view_files"></div>
                 </div>
 
             </div>
