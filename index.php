@@ -56,21 +56,7 @@
         </div>
 
 
-        <div class="container body">
-            <h1>Your group folders</h1>
-
-            <div class="content">
-                <input id="search_box" type="text" placeholder="Search" class="form-control"/>
-
-                <div class="files">
-                    <!--Tutaj bedzie for po wszystkich dostepnych folderach -->
-                    <div class="list" id="starred_view"></div>
-                    <div class="list" id="view"></div>
-                    <div class="list" id="view_files"></div>
-                </div>
-
-            </div>
-        </div>
+        <div id="page" class="container body"></div>
 
 
         <!-- Latest compiled and minified JavaScript -->
