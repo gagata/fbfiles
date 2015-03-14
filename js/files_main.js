@@ -4,23 +4,42 @@ function files_main(groupId){
     $("h1").before(before);
 
     console.log("files_main for " + groupId);
-    FB.api('/'+groupId+'/feed', processFeed);
+    FB.api('/'+groupId+'/feed', function (response) {
+        console.log(response);
+        
+        var files = processPosts(response['data']);
+        
+        FB.api('/'+groupId+'/files', function(resp) {
+            console.log(resp);
+            var d = resp['data'];
+            for (var k = 0; k < d.length; k++) {
+                files.push({
+                    'link': d[k].download_link, 
+                    'post': '',
+                    'date': d[k].updated_time,
+                    'from': d[k].from
+                });
+            }
+            console.log(files);
+            //in present_files.js
+            files_present(files);
+        });
+    });
+
     FB.api('/'+groupId, function(nameRes) {
         console.log("nameRes:" + nameRes);
         $("h1").text(nameRes.name);
     });
 }
 
-function processFeed(response) {
-    console.log(response);
-    var data = response['data'];
-    var files = [];
+function processPosts(data) {
     var posts = [];
+    var files = [];
     for(var i=0; i<data.length; i++){
         if(data[i].comments){
             var comments = data[i].comments.data;
             for(var j=0; j<comments.length; j++){
-                console.log(comments[j])
+                console.log(comments[j]);
                 posts.push(comments[j]);
             }
         }
@@ -30,23 +49,8 @@ function processFeed(response) {
     for(var i=0; i<posts.length; i++){
         addToFiles(files, posts[i]);
     }
-    FB.api('/'+groupId+'/files', function(resp) {
-        console.log(resp);
-        var d = resp['data'];
-        for (var k = 0; k < d.length; k++) {
-            files.push({
-                'link': d[k].download_link, 
-                'post': '',
-                'date': d[k].updated_time,
-                'from': d[k].from
-            })
-        }
-        console.log(files);
-        //in present_files.js
-        files_present(files);
-    });
+    return files;
 }
-
 
 function addToFiles(files, item){
     var msg = item.message;
@@ -60,7 +64,7 @@ function addToFiles(files, item){
                     'post': msg,
                     'date': item.created_time,
                     'from': item.from
-                })
+                });
             }
         }
     }
