@@ -34,8 +34,8 @@ function files_present(files) {
 function prepareGooglePreview(file) {
     var link = file.link;
     var suffix = "/edit";
-    if (endsWith(link, suffix) {
-        link = link.substring(0, link.length - suffix.length) + "/preview"
+    if (endsWith(link, suffix)) {
+        link = link.substring(0, link.length - suffix.length) + "/preview";
     }
     var div = $("<div/>").addClass("file").attr("id", link).addClass("item");
     var iframe = $("<iframe/>").attr("src", link).addClass("iframe");
