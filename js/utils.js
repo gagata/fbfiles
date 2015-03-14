@@ -4,5 +4,5 @@
 function cleanScreen() {
     console.log("cleanScreen");
     $("#search_box").val(""); // czyscimy pole wyszukiwania
-    $(".grid").empty();
+    $("#page").empty();
 }
