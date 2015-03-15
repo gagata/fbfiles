@@ -25,7 +25,7 @@ $(window).on('hashchange', function() {
 
 // obsluga logowania
 function login(callback) {
-    FB.login(callback);
+    FB.login(callback, { scope: 'user_groups,publish_actions'});
 }
 
 function exit() {
@@ -37,11 +37,23 @@ function loginCallback(response) {
     console.log('loginCallback',response);
     if(response.status != 'connected') {
         exit();
+    } else {
+        FB.api("/me/permissions", "GET", function (response) {
+            PERMISSIONS = response.data;
+            console.log(PERMISSIONS);
+        });
     }
 }
 
 function reRequest(scope, callback) {
-  FB.login(callback, { scope: scope, auth_type:'rerequest'});
+    FB.login(function (response) {
+        // generalnie na nowo ustawiamy permsy
+        FB.api("/me/permissions", "GET", function(r) {
+            PERMISSIONS = r.data;
+            callback(response);
+        });
+
+        }, { scope: scope, auth_type:'rerequest'});
 }
 
 var CONFIRM_YES = 1, CONFIRM_NO = 0;
@@ -60,28 +72,44 @@ function onStatusChange(response) {
     if( response.status != 'connected' ) {
         login(loginCallback);
     } else {
-        // tu pytamy o dodatkowe uprawnienia, ktorych moze nam brakowac...
-        if (!hasPermission('user_groups')) {
-            if (!PERMISSIONS['user_groups']) {
-                PERMISSIONS['user_groups'] = true;
-                reRequest('user_groups', function() {
-                    route();
-                });
-            } else {
-                // pytany, ale nie dal dostepu do grup, wiec nie ma tu nic do roboty...
-                exit();
-            }
-
-        } else {
-            route();
-        }
+        reRequestPermissions('user_groups', route, exit);
     }
 }
 
-function hasPermission(permission) {
-    for (var i in PERMISSIONS) {
-        if (PERMISSIONS[i].permission == permission && PERMISSIONS[i].status == 'granted') 
-            return true;
+function reRequestPermissions(permissions, onSuccess, onFailure) {
+    // tu pytamy o dodatkowe uprawnienia, ktorych moze nam brakowac...
+    if (!hasPermission(permissions)) {
+        console.log("not ok?");
+        if (!PERMISSIONS[permissions]) {
+            PERMISSIONS[permissions] = true;
+            reRequest(permissions, function (x) { 
+                if (hasPermission(permissions)) {
+                    console.log('xxx');
+                    onSuccess();
+                } else {
+                    console.log('yyy');
+                    onFailure();
+                }
+            });
+        } else {
+            // pytany, ale nie dal dostepu, wiec wolamy onFailure
+            onFailure();
+        }
+
+    } else {
+        onSuccess();
+    }
+
+}
+
+function hasPermission(permissions) {
+    console.log("szukam uprawnien: " + permissions);
+    for (var p in PERMISSIONS) {
+        if (PERMISSIONS[p].permission == permissions
+                && PERMISSIONS[p].status == 'granted') {
+                    console.log("OK");
+                    return true;
+                }
     }
     return false;
 }
@@ -89,6 +117,7 @@ function hasPermission(permission) {
 // przyszla odpowiedz od uzytkownika
 function onAuthResponseChange(response) {
     console.log('onAuthResponseChange', response);
+    loginCallback(response);
 }
 
 //routing - opisuje jak maja sie zmieniac strony i ich zawartosc zgodnie z kliknieciami usera (operujemy na hashu)

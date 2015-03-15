@@ -1,8 +1,17 @@
+var publish_perm = 'publish_actions';
+
 function notify_main() {
     console.log("notify_main");
 
-    $('#notify').click(sendNotification);
-    populateGroups();	
+    reRequestPermissions(publish_perm, function () {
+        console.log("mam permsy");
+        $('#notify').click(sendNotification);
+        populateGroups();	
+    }, function () {
+        //przenosimy usera na strone glowna, jesli nie chce nam pozwolic pisac
+        window.location.href = window.location.origin + "/#groups";
+    });
+
 }
 
 function populateGroups() {
