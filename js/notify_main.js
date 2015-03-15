@@ -1,10 +1,8 @@
 function notify_main() {
     console.log("notify_main");
 
-    $('#page').load('/content/notify.html', function() {
-    	$('#notify').click(sendNotification);
-    	populateGroups();	
-    });
+    $('#notify').click(sendNotification);
+    populateGroups();	
 }
 
 function populateGroups() {

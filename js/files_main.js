@@ -1,14 +1,14 @@
 
-function files_main(groupId){
+function files_main(groupId) {
     var before = $("<a/>").attr("href", "#").text("Show all folders").addClass("back_to_root");
     $("h1").before(before);
 
     console.log("files_main for " + groupId);
     FB.api('/'+groupId+'/feed', function (response) {
         console.log(response);
-        
+
         var files = processPosts(response['data']);
-        
+
         FB.api('/'+groupId+'/files', function(resp) {
             console.log(resp);
             var d = resp['data'];
@@ -21,7 +21,7 @@ function files_main(groupId){
                 });
             }
             console.log(files);
-            //in present_files.js
+            //in files_present.js
             files_present(files);
         });
     });

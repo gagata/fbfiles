@@ -1,18 +1,16 @@
 function groups_main() {
     console.log("groups_main");
 
-    $('#page').load('/content/groups.html', function() {
-        $("#view_files").fadeOut(function () {
-            $(this).empty();
-            $("h1").text("Your group folders");
-            $("#view").fadeIn();
-            $("#starred_view").fadeIn();
-            getGroups();
-        });
-        $(".back_to_root").remove();
-
-        $('#search_box').keyup(filter);
+    $("#view_files").fadeOut(function () {
+        $(this).empty();
+        $("h1").text("Your group folders");
+        $("#view").fadeIn();
+        $("#starred_view").fadeIn();
+        getGroups();
     });
+    $(".back_to_root").remove();
+
+    $('#search_box').keyup(filter);
 }
 
 

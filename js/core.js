@@ -105,19 +105,19 @@ function route() {
         case "":
         case "#groups":
             console.log("main page");
-            groups_main();
+            main("/content/groups.html", groups_main);
         break;
         case "#about":
             console.log("#about");
-            about_main();
+            main("/content/about.html", about_main);
         break;
         case "#notify":
             console.log("#notify");
-            notify_main();
+            main("/content/notify.html", notify_main);
         break;
         case "#contact":
             console.log("#contact");
-            contact_main();
+            main("/content/contact.html", contact_main);
         break;
         default:
             var files_prefix = "#files_";
@@ -125,10 +125,21 @@ function route() {
             if (hash.indexOf(files_prefix) == 0) {
                 console.log("#files");
                 console.log(hash.substring(files_prefix.length));
-                files_main(hash.substring(files_prefix.length));
+                main("/content/groups.html", function () {files_main(hash.substring(files_prefix.length))});
             } else {
                 console.log("404?");
+                main("/content/404.html", null);
             }
 
     }
+}
+
+// ladujemy odpowiedni plik do containera "#page"
+// po zaladowaniu wywolywany jest callback
+// funkcja wspolna dla wszystkich XXX_main
+// (zawsze chcemy wczytac nowy plik przed jakakolwiek akcja)
+function main(file, callback) {
+    console.log("main " + file);
+    console.log(callback);
+    $('#page').load(file, callback);
 }

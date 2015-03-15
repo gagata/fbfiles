@@ -6,3 +6,4 @@ function cleanScreen() {
     $("#search_box").val(""); // czyscimy pole wyszukiwania
     $("#page").empty();
 }
+
