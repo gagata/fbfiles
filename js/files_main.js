@@ -30,6 +30,7 @@ function files_main(groupId) {
         console.log("nameRes:" + nameRes);
         $("h1").text(nameRes.name);
     });
+    $('#search_box').keyup(filter);
 }
 
 function processPosts(data) {
