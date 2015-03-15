@@ -23,12 +23,16 @@ div#bgf-navbar a:hover {
     color: #f1c40f !important;
 }
 
-.btn-primary#notify {
+.btn-primary#notify, .btn-primary#copy, .ui-dialog-titlebar {
     background: #34495e; 
+    color: white;
 }
 
 .content, .body, .files {
     margin-top: 50px;
+}
+.body {
+    padding-top: 30px;
 }
 
 .folder:hover, .file:hover {
@@ -39,11 +43,16 @@ div#bgf-navbar a:hover {
 /* ==== list view ==== */
 
 
-.back_to_root {
+.back_to_root, #share {
 	float: right;
-	margin-top: 40px;
-	margin-right: 80px;
-
+	margin-left: 20px;
+	font-size: 30px;
+    color: #f1c40f !important;
+}
+.back_to_root:hover, #share:hover {
+    color: #2c3e50 !important;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /*folders - list view styling*/

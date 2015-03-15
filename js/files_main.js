@@ -1,7 +1,7 @@
-
 function files_main(groupId) {
-    var before = $("<a/>").attr("href", "#").text("Show all folders").addClass("back_to_root");
-    $("h1").before(before);
+    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view").addClass("back_to_root").addClass("glyphicon glyphicon-arrow-left");
+    var clip_button = $("<a/>").attr("title", "Get a share link").addClass("glyphicon glyphicon-paperclip").attr("id", "share");
+    $("h1").before(before).before(clip_button);
 
     console.log("files_main for " + groupId);
     FB.api('/'+groupId+'/feed', function (response) {
@@ -31,6 +31,33 @@ function files_main(groupId) {
         $("h1").text(nameRes.name);
     });
     $('#search_box').keyup(filter);
+
+    clip_button.click(function () {
+        var dialog = $("<div/>").attr("title", "Get a link to this folder");
+        dialog.load("/content/share_link_dialog.html", function () {
+            dialog.find("#share_link_input").val(window.location.href);
+            dialog.dialog({
+                width: 500,
+                modal: true
+            });
+        });
+    });
+}
+
+function captureLink(text) {
+    console.log("captureLink " + text);
+    var client = new ZeroClipboard( document.getElementById(text) );
+
+    client.on( "ready", function( readyEvent ) {
+         alert( "ZeroClipboard SWF is ready!" );
+
+        client.on( "aftercopy", function( event ) {
+            // `this` === `client`
+            // `event.target` === the element that was clicked
+            event.target.style.display = "none";
+            alert("Copied : " + event.data["text/plain"] );
+        } );
+    } );
 }
 
 function processPosts(data) {
