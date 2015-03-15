@@ -36,13 +36,13 @@ function sendNotification() {
             },
             function(response) {
                 console.log(response.error);
-                $(".form").empty();
+                $(".form").find("select, input[type=text], textarea").val("");
                 if (response.error) {
                     var error = $("<div/>").addClass("alert").addClass("alert-warning").html("<b>Error:</b>" + response.error);
-                    $(".form").append(error);
+                    $(".form").before(error);
                 } else {
                     var success = $("<div/>").addClass("alert").addClass("alert-success").text("Notification pushed successfully");
-                    $(".form").append(success);
+                    $(".form").before(success);
                 }
             }
           );
