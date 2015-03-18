@@ -3,7 +3,16 @@ var APP_NAMESPACE = 'browse-group-files';
 
 var PERMISSIONS = {};
 
+
 $(document).ready(function () {
+
+    var body = $("body");
+    $(document).on("load-start", function () {
+        body.addClass("loading").delay(100); 
+    });
+    $(document).on("load-stop", function () {
+        body.delay(100).removeClass("loading"); 
+    });
 
     //inicjacja SDK
     FB.init({
@@ -170,5 +179,6 @@ function route() {
 function main(file, callback) {
     console.log("main " + file);
     console.log(callback);
+    $(document).trigger("load-start");
     $('#page').load(file, callback);
 }

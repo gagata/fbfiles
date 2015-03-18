@@ -20,6 +20,7 @@ function populateGroups() {
     $.each(groups, function(id, group) {
         groupdown.append($('<option />').val(id).text(group.name));
     });
+    $(document).trigger("load-stop");
 }
 
 function sendNotification() {

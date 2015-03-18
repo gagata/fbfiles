@@ -24,8 +24,11 @@
         <!-- czcionka Lato -->
         <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
+        <!-- style! -->
         <link href="styles/styles.css" rel="stylesheet">
+        <link href="styles/fileicon.css" rel="stylesheet">
 
+        <!-- skrypty -->
         <script src="js/core.js" type="text/javascript"></script>
         <script src="js/groups_main.js" type="text/javascript"></script>
         <script src="js/notify_main.js" type="text/javascript"></script>
@@ -37,34 +40,51 @@
 
     </head>
     <body>
-        <div id="fb-root"></div>
 
-        <div class="navbar navbar-inverse navbar-fixed-top" id="bgf-navbar">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">Facebook Group Files App</a>
+        <div class="wrapper">
+            <div id="fb-root"></div>
+            <div class="navbar navbar-inverse navbar-fixed-top" id="bgf-navbar">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">Facebook Group Files App</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#notify">Notify</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
                 </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#notify">Notify</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div><!--/.nav-collapse -->
             </div>
+
+
+            <div id="page" class="container body">
+                <!-- content loaded dynamically -->
+            </div>
+
+            <div id="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="cold-md-8 col-lg-8">
+                            <h4>This is our Facebook Warsaw Hackathon project!</h4>
+                        </div>
+                        <div class="cold-md-4 col-lg-4">
+                            <h4>Contributions</h4>
+                            <p>2015 &copy;<br/>Agata Cieplik<br/>Michał Duczyński<br/>Miłosz Świzdor<br/></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading-modal"></div>
         </div>
-
-
-        <div id="page" class="container body">
-            <!-- content loaded dynamically -->
-        </div>
-
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

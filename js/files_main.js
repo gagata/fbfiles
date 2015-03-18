@@ -38,7 +38,10 @@ function files_main(groupId) {
             dialog.find("#share_link_input").val(window.location.href);
             dialog.dialog({
                 width: 500,
-                modal: true
+                modal: true,
+                close: function () {
+                    dialog.remove();
+                }
             });
         });
     });

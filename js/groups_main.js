@@ -72,6 +72,7 @@ function present_folders(folders) {
             gdict[id_num].starred = !starred;
             localStorage.setItem('groups', JSON.stringify(gdict));
             getGroups();
+            $("#search_box").val("");
         });
         icon.append(img);
         a.append(icon);
@@ -89,6 +90,8 @@ function present_folders(folders) {
         }
         
     }
+    
+    $(document).trigger("load-stop");
 }
 
 /* Escapes special characters from the provided string. */
