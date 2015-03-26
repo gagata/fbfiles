@@ -1,30 +1,12 @@
 function files_main(groupId) {
-    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view").addClass("back_to_root").addClass("glyphicon glyphicon-arrow-left");
-    var clip_button = $("<a/>").attr("title", "Get a share link").addClass("glyphicon glyphicon-paperclip").attr("id", "share");
+    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view")
+        .addClass("back_to_root glyphicon glyphicon-arrow-left");
+    var clip_button = $("<a/>").attr("title", "Get a share link")
+        .addClass("glyphicon glyphicon-paperclip").attr("id", "share");
     $("h1").before(before).before(clip_button);
 
-    console.log("files_main for " + groupId);
-    FB.api('/'+groupId+'/feed', function (response) {
-        console.log(response);
-
-        var files = processPosts(response['data']);
-
-        FB.api('/'+groupId+'/files', function(resp) {
-            console.log(resp);
-            var d = resp['data'];
-            for (var k = 0; k < d.length; k++) {
-                files.push({
-                    'link': d[k].download_link, 
-                    'post': '',
-                    'date': d[k].updated_time,
-                    'from': d[k].from
-                });
-            }
-            console.log(files);
-            //in files_present.js
-            files_present(files);
-        });
-    });
+    ////in files_present.js
+    getAllPostsAsync(groupId, files_present);
 
     FB.api('/'+groupId, function(nameRes) {
         console.log("nameRes:" + nameRes);
@@ -45,6 +27,47 @@ function files_main(groupId) {
             });
         });
     });
+}
+
+function getAllPostsAsync(groupId, withFiles) {
+    console.log("files_main for " + groupId);
+    FB.api('/'+groupId+'/feed', function (response) {
+        console.log("feed", response);
+
+        getPostsNextAsync(response, [], function(files) {
+            FB.api('/' + groupId + '/files', function (resp) {
+                console.log(resp);
+                var d = resp['data'];
+                for (var k = 0; k < d.length; k++) {
+                    files.push({
+                        'link': d[k].download_link,
+                        'post': '',
+                        'date': d[k].updated_time,
+                        'from': d[k].from
+                    });
+                }
+                console.log(files);
+                withFiles(files);
+            });
+        });
+    });
+}
+
+function getPostsNextAsync(response, files, withFiles) {
+    console.log("response", response);
+    var processed = processPosts(response['data']);
+    console.log(processed);
+    files = files.concat(processed);
+
+    var paging = response['paging'];
+
+    if (paging) {
+        $.get(paging['next'], function (data) {
+            getPostsNextAsync(data, files, withFiles);
+        });
+    } else {
+        withFiles(files);
+    }
 }
 
 function captureLink(text) {
