@@ -15,8 +15,8 @@ function populate_groups() {
 function send_notification() {
     var groupId = $('#groupdown').val();
     var fullMsg = $('#post').val() + '\n' + $('#link').val();
-    console.log('sending.. ' + groupId);
-    console.log(fullMsg);
+    log('sending.. ' + groupId);
+    log(fullMsg);
 
     FB.api(
             '/' + groupId + '/feed',
@@ -25,7 +25,7 @@ function send_notification() {
                 'message': fullMsg
             },
             function(response) {
-                console.log(response.error);
+                log(response.error);
                 $(".form").empty();
                 if (response.error) {
                     var error = $("<div/>").addClass("alert").addClass("alert-warning").html("<b>Error:</b>" + response.error);

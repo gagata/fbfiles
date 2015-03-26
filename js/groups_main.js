@@ -1,5 +1,5 @@
 function groups_main() {
-    console.log("groups_main");
+    log("groups_main");
 
     $("#view_files").fadeOut(function () {
         $(this).empty();
@@ -17,13 +17,13 @@ function groups_main() {
 function getAllGroups() {
     FB.api('/me?fields=id,name,updated_time,groups.icon_size(34){id,name,icon,updated_time}',
         function(response) {
-            console.log(response);
+            log(response);
 
             var groups = response.groups.data;
-            console.log(groups);
+            log(groups);
 
             if (response.groups.paging['next']) {
-                console.log("there might be something more!");
+                log("there might be something more!");
             }
 
             updateGroups_cache(groups);
@@ -47,13 +47,13 @@ function updateGroups_cache(groups) {
         }
     }
 
-    console.log("local storage groups", gdict);
+    log("local storage groups", gdict);
     localStorage.setItem("groups", JSON.stringify(gdict));
 }
 
 function invertStar_cache(id_num) {
     var gdict = JSON.parse(localStorage.getItem("groups"));
-    console.log(gdict[id_num]);
+    log(gdict[id_num]);
     var starred = gdict[id_num].starred;
     gdict[id_num].starred = !starred;
     localStorage.setItem('groups', JSON.stringify(gdict));
@@ -61,7 +61,7 @@ function invertStar_cache(id_num) {
 
 //called from login.js
 function present_folders(folders) {
-    console.log("present folders", folders);
+    log("present folders", folders);
     $("#view").empty();
     $("#starred_view").empty();
 
@@ -102,7 +102,7 @@ function htmlStar(folderId) {
         var idd = $(this).attr("data");
         $('#'+idd).remove();
         var id_num = Number(idd);
-        console.log(id_num);
+        log(id_num);
         invertStar_cache(id_num);
         getGroups();
         $("#search_box").val("");

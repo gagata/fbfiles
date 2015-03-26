@@ -82,7 +82,9 @@
                 </div>
             </div>
 
-            <div class="loading-modal"></div>
+            <div class="loading-modal">
+                <h3>Keep calm! We're doing our best to prepare your files!</h3>
+            </div>
         </div>
 
         <!-- Latest compiled and minified JavaScript -->

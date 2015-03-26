@@ -9,7 +9,7 @@ function files_main(groupId) {
     getAllPostsAsync(groupId, files_present);
 
     FB.api('/'+groupId, function(nameRes) {
-        console.log("nameRes:" + nameRes);
+        log("nameRes:" + nameRes);
         $("h1").text(nameRes.name);
     });
     $('#search_box').keyup(filter);
@@ -30,13 +30,13 @@ function files_main(groupId) {
 }
 
 function getAllPostsAsync(groupId, withFiles) {
-    console.log("files_main for " + groupId);
+    log("files_main for " + groupId);
     FB.api('/'+groupId+'/feed', function (response) {
-        console.log("feed", response);
+        log("feed", response);
 
         getPostsNextAsync(response, [], function(files) {
             FB.api('/' + groupId + '/files', function (resp) {
-                console.log(resp);
+                log(resp);
                 var d = resp['data'];
                 for (var k = 0; k < d.length; k++) {
                     files.push({
@@ -46,7 +46,7 @@ function getAllPostsAsync(groupId, withFiles) {
                         'from': d[k].from
                     });
                 }
-                console.log(files);
+                log(files);
                 withFiles(files);
             });
         });
@@ -54,9 +54,9 @@ function getAllPostsAsync(groupId, withFiles) {
 }
 
 function getPostsNextAsync(response, files, withFiles) {
-    console.log("response", response);
+    log("response", response);
     var processed = processPosts(response['data']);
-    console.log(processed);
+    log(processed);
     files = files.concat(processed);
 
     var paging = response['paging'];
@@ -71,7 +71,7 @@ function getPostsNextAsync(response, files, withFiles) {
 }
 
 function captureLink(text) {
-    console.log("captureLink " + text);
+    log("captureLink " + text);
     var client = new ZeroClipboard( document.getElementById(text) );
 
     client.on( "ready", function( readyEvent ) {
@@ -93,13 +93,13 @@ function processPosts(data) {
         if(data[i].comments){
             var comments = data[i].comments.data;
             for(var j=0; j<comments.length; j++){
-                console.log(comments[j]);
+                log(comments[j]);
                 posts.push(comments[j]);
             }
         }
         posts.push(data[i]);
     }
-    console.log(posts);
+    log(posts);
     for(var i=0; i<posts.length; i++){
         addToFiles(files, posts[i]);
     }

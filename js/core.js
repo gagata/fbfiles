@@ -3,6 +3,8 @@ var APP_NAMESPACE = 'browse-group-files';
 
 var PERMISSIONS = {};
 
+var DEBUG = false;
+
 
 $(document).ready(function () {
 
@@ -43,13 +45,13 @@ function exit() {
 
 // callback do logowania
 function loginCallback(response) {
-    console.log('loginCallback',response);
+    log('loginCallback',response);
     if(response.status != 'connected') {
         exit();
     } else {
         FB.api("/me/permissions", "GET", function (response) {
             PERMISSIONS = response.data;
-            console.log(PERMISSIONS);
+            log(PERMISSIONS);
         });
     }
 }
@@ -88,15 +90,15 @@ function onStatusChange(response) {
 function reRequestPermissions(permissions, onSuccess, onFailure) {
     // tu pytamy o dodatkowe uprawnienia, ktorych moze nam brakowac...
     if (!hasPermission(permissions)) {
-        console.log("not ok?");
+        log("not ok?");
         if (!PERMISSIONS[permissions]) {
             PERMISSIONS[permissions] = true;
             reRequest(permissions, function (x) { 
                 if (hasPermission(permissions)) {
-                    console.log('xxx');
+                    log('xxx');
                     onSuccess();
                 } else {
-                    console.log('yyy');
+                    log('yyy');
                     onFailure();
                 }
             });
@@ -112,11 +114,11 @@ function reRequestPermissions(permissions, onSuccess, onFailure) {
 }
 
 function hasPermission(permissions) {
-    console.log("szukam uprawnien: " + permissions);
+    log("szukam uprawnien: " + permissions);
     for (var p in PERMISSIONS) {
         if (PERMISSIONS[p].permission == permissions
                 && PERMISSIONS[p].status == 'granted') {
-                    console.log("OK");
+                    log("OK");
                     return true;
                 }
     }
@@ -125,7 +127,7 @@ function hasPermission(permissions) {
 
 // przyszla odpowiedz od uzytkownika
 function onAuthResponseChange(response) {
-    console.log('onAuthResponseChange', response);
+    log('onAuthResponseChange', response);
     loginCallback(response);
 }
 
@@ -133,8 +135,8 @@ function onAuthResponseChange(response) {
 //wolane zawsze w momencie kiedy mamy zmiane statusu aplikacji (a user jest zalogowany)
 function route() {
     var hash = window.location.hash;
-    console.log("window location hash:")
-    console.log(hash);
+    log("window location hash:")
+    log(hash);
 
     cleanScreen();
 
@@ -142,30 +144,30 @@ function route() {
         
         case "":
         case "#groups":
-            console.log("main page");
+            log("main page");
             main("/content/groups.html", groups_main);
         break;
         case "#about":
-            console.log("#about");
+            log("#about");
             main("/content/about.html", about_main);
         break;
         case "#notify":
-            console.log("#notify");
+            log("#notify");
             main("/content/notify.html", notify_main);
         break;
         case "#contact":
-            console.log("#contact");
+            log("#contact");
             main("/content/contact.html", contact_main);
         break;
         default:
             var files_prefix = "#files_";
-            console.log(hash.indexOf(files_prefix));
+            log(hash.indexOf(files_prefix));
             if (hash.indexOf(files_prefix) == 0) {
-                console.log("#files");
-                console.log(hash.substring(files_prefix.length));
+                log("#files");
+                log(hash.substring(files_prefix.length));
                 main("/content/groups.html", function () {files_main(hash.substring(files_prefix.length))});
             } else {
-                console.log("404?");
+                log("404?");
                 main("/content/404.html", null);
             }
 
@@ -177,8 +179,8 @@ function route() {
 // funkcja wspolna dla wszystkich XXX_main
 // (zawsze chcemy wczytac nowy plik przed jakakolwiek akcja)
 function main(file, callback) {
-    console.log("main " + file);
-    console.log(callback);
+    log("main " + file);
+    log(callback);
     $(document).trigger("load-start");
     $('#page').load(file, callback);
 }

@@ -1,10 +1,10 @@
 var publish_perm = 'publish_actions';
 
 function notify_main() {
-    console.log("notify_main");
+    log("notify_main");
 
     reRequestPermissions(publish_perm, function () {
-        console.log("mam permsy");
+        log("mam permsy");
         $('#notify').click(sendNotification);
         populateGroups();	
     }, function () {
@@ -26,8 +26,8 @@ function populateGroups() {
 function sendNotification() {
     var groupId = $('#groupdown').val();
     var fullMsg = $('#post').val() + '\n' + $('#link').val();
-    console.log('sending.. ' + groupId);
-    console.log(fullMsg);
+    log('sending.. ' + groupId);
+    log(fullMsg);
 
     FB.api(
             '/' + groupId + '/feed',
@@ -36,7 +36,7 @@ function sendNotification() {
                 'message': fullMsg
             },
             function(response) {
-                console.log(response.error);
+                log(response.error);
                 $(".form").find("select, input[type=text], textarea").val("");
                 if (response.error) {
                     var error = $("<div/>").addClass("alert").addClass("alert-warning").html("<b>Error:</b>" + response.error);

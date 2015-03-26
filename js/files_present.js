@@ -32,15 +32,15 @@ function setPostWidth() {
     $(".post").each(function () {
         var file = $(this).parent();
         var w = file.innerWidth();
-        console.log(w);
+        log(w);
         var used = file.find(".date").outerWidth();
         used += file.find(".file-icon-container").outerWidth();
         used += file.find(".name").outerWidth();
         used += file.find(".show").outerWidth();
-        console.log(used);
+        log(used);
         $(this).innerWidth(w - used - 100);
     });
-    console.log("post setting done");
+    log("post setting done");
 }
 
 function files_present(files) {
@@ -166,7 +166,15 @@ function prepareFile(file) {
     div.append(date);
     var split = file.link.split("/");
     var filename = split[split.length-1];
-    var name = $("<div/>").addClass("name").text(decodeURIComponent(filename));
+    var f;
+    try {
+        f = decodeURIComponent(unescape(filename));
+    } catch (e) {
+        f = filename;
+    }
+    if (f.length > 50)
+        f = f.substr(0, 50) + "...";
+    var name = $("<div/>").addClass("name").text(f);
     div.append(name);
     if (file.post.length > 0) {
         var post = $("<div/>").text(file.post).addClass("post");
