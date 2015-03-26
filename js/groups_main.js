@@ -104,7 +104,7 @@ function htmlStar(folderId) {
         var id_num = Number(idd);
         log(id_num);
         invertStar_cache(id_num);
-        getGroups();
+        getAllGroups();
         $("#search_box").val("");
     });
     return star;
