@@ -168,7 +168,7 @@ function prepareFile(file) {
     var filename = split[split.length-1];
     var f;
     try {
-        f = decodeURIComponent(unescape(filename));
+        f = decodeURIComponent(filename);
     } catch (e) {
         f = filename;
     }
