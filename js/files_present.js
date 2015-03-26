@@ -229,7 +229,8 @@ function isFile(url) {
 function convertDateFormat(rawDate) {
     var date = new Date(rawDate);
     return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
-        + ' ' + date.getHours() + ':' + date.getMinutes();
+        + ' ' + date.getHours()
+        + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
 }
 
 function endsWith(str, suffix) {
