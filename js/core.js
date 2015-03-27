@@ -164,8 +164,9 @@ function route() {
             log(hash.indexOf(files_prefix));
             if (hash.indexOf(files_prefix) == 0) {
                 log("#files");
-                log(hash.substring(files_prefix.length));
-                main("/content/groups.html", function () {files_main(hash.substring(files_prefix.length))});
+                var fields = hash.split(/_/);
+                log(fields[1]);
+                main("/content/groups.html", function () {files_main(fields[1], fields[2], fields[3])});
             } else {
                 log("404?");
                 main("/content/404.html", null);

@@ -1,6 +1,6 @@
 var extensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'odt', 'mp3', 'wav', 'jpg', 'png', 'ppt', 'pptx', 'gif',
     'zip', 'rar', 'gz', 'py', 'cpp', 'hpp', 'h', 'c', 'tgz', 'gdoc', 'gsheet', 'gpres', 'gmap', 'gdraw', 'gdrive',
-    'dropbox'];
+    'dropbox', 'java'];
 
 $(function() {
     $(document).on("click", ".file .show-file", function () {
