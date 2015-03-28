@@ -16,7 +16,7 @@ $(document).ready(function () {
         body.delay(100).removeClass("loading"); 
     });
 
-    //inicjacja SDK
+    // inicjacja SDK
     FB.init({
         appId: APP_ID,
         frictionlessRequests: true,
@@ -24,7 +24,7 @@ $(document).ready(function () {
         version: 'v2.1'
     });
 
-    //obsluga niezbednych eventow
+    // obsluga niezbednych eventow
     FB.Event.subscribe('auth.authResponseChange', onAuthResponseChange);
     FB.Event.subscribe('auth.statusChange', onStatusChange);
 
@@ -36,7 +36,7 @@ $(window).on('hashchange', function() {
 
 // obsluga logowania
 function login(callback) {
-    FB.login(callback, { scope: 'user_groups,publish_actions'});
+    FB.login(callback, { scope: 'user_groups,publish_actions' });
 }
 
 function exit() {
@@ -45,8 +45,8 @@ function exit() {
 
 // callback do logowania
 function loginCallback(response) {
-    log('loginCallback',response);
-    if(response.status != 'connected') {
+    log('loginCallback', response);
+    if (response.status != 'connected') {
         exit();
     } else {
         FB.api("/me/permissions", "GET", function (response) {
@@ -64,14 +64,14 @@ function reRequest(scope, callback) {
             callback(response);
         });
 
-        }, { scope: scope, auth_type:'rerequest'});
+        }, { scope: scope, auth_type: 'rerequest' });
 }
 
 var CONFIRM_YES = 1, CONFIRM_NO = 0;
 
-function showConfirmationPopup(message,callback) {
+function showConfirmationPopup(message, callback) {
   var c = confirm(message);
-  if(c){ 
+  if (c) {
     callback(CONFIRM_YES);
   } else {
     callback(CONFIRM_NO);
@@ -80,7 +80,7 @@ function showConfirmationPopup(message,callback) {
 
 // zmienia sie status (aplikacja zostala zaakceptowana przez Usera)
 function onStatusChange(response) {
-    if( response.status != 'connected' ) {
+    if (response.status != 'connected') {
         login(loginCallback);
     } else {
         reRequestPermissions('user_groups', route, exit);

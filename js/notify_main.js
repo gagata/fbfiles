@@ -11,15 +11,16 @@ function notify_main() {
         //przenosimy usera na strone glowna, jesli nie chce nam pozwolic pisac
         window.location.href = window.location.origin + "/#groups";
     });
-
 }
 
 function populateGroups() {
     var groupdown = $('#groupdown');
-    var groups = JSON.parse(localStorage.getItem('groups'));
-    $.each(groups, function(id, group) {
-        groupdown.append($('<option />').val(id).text(group.name));
+    var gdict = JSON.parse(localStorage.getItem('groups'));
+
+    $.each(gdict, function(gid, group) {
+        groupdown.append($('<option />').val(gid).text(group.name));
     });
+
     $(document).trigger("load-stop");
 }
 
@@ -39,10 +40,14 @@ function sendNotification() {
                 log(response.error);
                 $(".form").find("select, input[type=text], textarea").val("");
                 if (response.error) {
-                    var error = $("<div/>").addClass("alert").addClass("alert-warning").html("<b>Error:</b>" + response.error);
+                    var error = $("<div/>")
+                        .addClass("alert alert-warning")
+                        .html("<b>Error:</b>" + response.error);
                     $(".form").before(error);
                 } else {
-                    var success = $("<div/>").addClass("alert").addClass("alert-success").text("Notification pushed successfully");
+                    var success = $("<div/>")
+                        .addClass("alert alert-success")
+                        .text("Notification pushed successfully");
                     $(".form").before(success);
                 }
             }
