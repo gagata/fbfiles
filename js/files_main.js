@@ -3,9 +3,9 @@ function files_main(groupId, limitReqPosts, limitReqFiles) {
     limitReqPosts = limitReqPosts ? limitReqPosts : 4;
     limitReqFiles = limitReqFiles ? limitReqFiles : 4;
     console.log('limitReqPosts',limitReqPosts);
-    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view")
+    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view").html('<div class="button_label">To folders</div>')
         .addClass("back_to_root glyphicon glyphicon-arrow-left");
-    var clip_button = $("<a/>").attr("title", "Get a share link")
+    var clip_button = $("<a/>").attr("title", "Get a share link").html('<div class="button_label">Share link</div>')
         .addClass("glyphicon glyphicon-paperclip").attr("id", "share");
     $("h1").before(before).before(clip_button);
 

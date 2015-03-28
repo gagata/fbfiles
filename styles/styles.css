@@ -43,17 +43,24 @@ div#bgf-navbar a:hover {
 #page {
     padding-bottom: 20px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 /* ==== list view ==== */
 
+#share {
+    float: right;
+}
+
+.back_to_root {
+    float: left;
+}
 
 .back_to_root, #share {
-	float: right;
-	margin-left: 20px;
 	font-size: 30px;
     color: #f1c40f !important;
 }
+
 .back_to_root:hover, #share:hover {
     color: #2c3e50 !important;
     text-decoration: none;
@@ -100,7 +107,7 @@ div#bgf-navbar a:hover {
     text-align: left;
     padding-left: 60px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 6px;
 }
 
@@ -181,7 +188,7 @@ div#bgf-navbar a:hover {
     -webkit-line-clamp: 2; /* number of lines to show N */
     line-height: 15px;        /* fallback X */
     max-height: 35px;       /* fallback N*X */
-    color: silver;
+    color: #888888;
     text-align: left;
 }
 .list .file .post:after {
