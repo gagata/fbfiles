@@ -6,16 +6,16 @@
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js" type="text/javascript"></script>
+
+        <!-- Latest compiled and minified bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <script src="https://code.jquery.com/jquery-2.1.3.min.js" type="text/javascript"></script>
 
         <!-- dialog box -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-        <!--TODO: czy uzywamy embed.ly? bo chyba przestalo dzialac...-->
-        <script src="https://cdn.embed.ly/jquery.embedly-3.1.1.min.js" type="text/javascript"></script>
 
         <!--facebook javascript sdk-->
         <script src="//connect.facebook.net/en_US/sdk.js"></script>
@@ -86,9 +86,6 @@
                 <h3>Keep calm! We're doing our best to prepare your files!</h3>
             </div>
         </div>
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     </body>
 </html>
 
