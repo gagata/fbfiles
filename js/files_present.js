@@ -228,9 +228,18 @@ function isFile(url) {
 
 function convertDateFormat(rawDate) {
     var date = new Date(rawDate);
-    return date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
-        + ' ' + date.getHours()
-        + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    var today = new Date();
+    var datePart = date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();
+    if (milisecsToDays(today - date) > 7) {
+        return datePart;
+    } else {
+        return datePart + ' ' + date.getHours()
+            + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    }
+}
+
+function milisecsToDays(milisecs) {
+    return milisecs/1000/60/60/24;
 }
 
 function endsWith(str, suffix) {
