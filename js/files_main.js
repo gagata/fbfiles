@@ -1,19 +1,18 @@
-function files_main(groupId, limitReqPosts, limitReqFiles) {
+function files_main(groupId, postsEndDate, filesEndDate) {
+    var now = Date.now();
+    postsEndDate = postsEndDate ? postsEndDate : now;
+    //filesEndDate = filesEndDate ? filesEndDate : now;
+    console.log('postsEndDate', postsEndDate);
 
-    limitReqPosts = limitReqPosts ? limitReqPosts : 4;
-    limitReqFiles = limitReqFiles ? limitReqFiles : 4;
-    console.log('limitReqPosts',limitReqPosts);
-    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view").html('<div class="button_label">To folders</div>')
-        .addClass("back_to_root glyphicon glyphicon-arrow-left");
-    var clip_button = $("<a/>").attr("title", "Get a share link").html('<div class="button_label">Share link</div>')
-        .addClass("glyphicon glyphicon-paperclip").attr("id", "share");
-    $("h1").before(before).before(clip_button);
+    loadUntil(postsEndDate, '/'+groupId+'/feed', now, 'cacheFeed_'+groupId, processPosts, [], function (filesFromPosts, analysedUntil, wasMorePosts) {
+        console.log('filesFrom', filesFromPosts, 'analysedUntil', analysedUntil, 'wasMorePosts', wasMorePosts);
 
-    getSome('/'+groupId+'/feed', limitReqPosts, processPosts, function(filesFromPosts, wasMorePosts) {
-        getSome('/' + groupId + '/files', limitReqFiles, processFiles, function (fbFiles, wasMoreFiles) {
+        var limitReqFiles = 20;
+        getSome('/' + groupId + '/files', limitReqFiles, 'cacheFiles_'+groupId, processFiles, function (fbFiles, filesUntil, wasMoreFiles) {
             if (wasMorePosts || wasMoreFiles) {
                 console.log('wasMorePosts', wasMorePosts, 'wasMoreFiles', wasMoreFiles);
-                var showMore = $("<a/>").attr("href", '#files_'+groupId+'_'+20+'_'+10)
+                var dateOfNextThingsToLoad = Date.parse(analysedUntil)-2000; /* that's -2 seconds */
+                var showMore = $("<a/>").attr("href", '#files_'+groupId+'_'+dateOfNextThingsToLoad+'_'+10)
                     .attr("title", "Show more").html("Show more");
                 $("#groups").append(showMore);
             }
@@ -23,13 +22,17 @@ function files_main(groupId, limitReqPosts, limitReqFiles) {
             sortByDate(files);
             files_present(files)
         });
-    } );
 
-    FB.api('/'+groupId, function(nameRes) {
-        console.log("nameRes:" + nameRes);
-        $("h1").text(nameRes.name);
     });
-    $('#search_box').keyup(filter);
+
+    addNavigation(groupId);
+}
+
+function addNavigation(groupId) {
+    var before = $("<a/>").attr("href", "#").attr("title", "Back to folders view").html('<div class="button_label">To folders</div>')
+        .addClass("back_to_root glyphicon glyphicon-arrow-left");
+    var clip_button = $("<a/>").attr("title", "Get a share link").html('<div class="button_label">Share link</div>')
+        .addClass("glyphicon glyphicon-paperclip").attr("id", "share");
 
     clip_button.click(function () {
         var dialog = $("<div/>").attr("title", "Get a link to this folder");
@@ -44,6 +47,15 @@ function files_main(groupId, limitReqPosts, limitReqFiles) {
             });
         });
     });
+
+    $("h1").before(before).before(clip_button);
+
+    FB.api('/'+groupId, function(nameRes) {
+        console.log("nameRes:" + nameRes);
+        $("h1").text(nameRes.name);
+    });
+
+    $('#search_box').keyup(filter);
 }
 
 function processFiles(d) {
@@ -58,47 +70,166 @@ function processFiles(d) {
     }
     return files;
 }
-
-function getSome(fbApiUrl, limit, processResponse, withResult) {
-    FB.api(fbApiUrl, function (response) {
-        console.log("fb api", fbApiUrl, response);
-
-        _getSomeMore(response, [], limit, processResponse, withResult);
+/** loadUntil(dateEnd=1428073419233, fbApiUrl='/297552950255132/feed', untilDate=1428073419233, ...)
+ *  withResult([files], '2015-02-05T12:13:08+0000', true) */
+function loadUntil(dateEnd, fbApiUrl, untilDate, cacheName, processResponse, result, withResult) {
+    var untilDateInSec = Math.round(untilDate/1000);
+    getSome(fbApiUrl+'?until='+untilDateInSec, 5, cacheName, processResponse, function(filesFromPosts, analysedUntil, wasMore) {
+        result = result.concat(filesFromPosts);
+        var analysedUntilSecs = Date.parse(analysedUntil);
+        console.log('dateEnd', dateEnd, 'analysedUntil', analysedUntilSecs);
+        if (dateEnd < analysedUntilSecs && wasMore) {
+            console.log('I wanted to go here');
+            loadUntil(dateEnd, fbApiUrl, analysedUntilSecs, cacheName, processResponse, result, withResult);
+        } else {
+            withResult(result, analysedUntil, wasMore);
+        }
     });
 }
-
-function _getSomeMore(response, result, limit, processResponse, withResult) {
+/** withResult([files], '2015-02-05T12:13:08+0000', true) */
+function getSome(fbApiUrl, limit, cacheName, processResponse, withResult) {
+    FB.api(fbApiUrl, function (response) {
+        console.log("fb api", fbApiUrl, response);
+        var data = response['data'];
+        var startDate = data[0]['updated_time'];
+        var endDate = data[data.length-1]['updated_time'];
+        _getSomeMore(startDate, response, [], cacheName, endDate, limit, processResponse, withResult);
+    });
+}
+/** withResult([files], '2015-02-05T12:13:08+0000', true) */
+function _getSomeMore(startDate, response, result, cacheName, endDate, limit, processResponse, withResult) {
     console.log("get some more: response", response);
-    var processed = processResponse(response['data']);
+    var response_data = response['data'];
+    var processed = processResponse(response_data);
     console.log("response processed:", processed);
     result = result.concat(processed);
 
     var paging = response['paging'];
 
-    if (paging && paging['next'] && limit > 0) {
+    var oldestEntry = response_data[response_data.length-1];
+    if (oldestEntry) {
+        endDate = oldestEntry['updated_time'];
+    }
+    var cachedToDate = cacheEntryFrom(cacheName, endDate);
+    if (cachedToDate) {
+        /* if we have something cached load it and stop downloading more */
+        console.log('we had it cached, date:', cachedToDate[0], 'files', cachedToDate[1]);
+        result = result.concat(cachedToDate[1]);
+        var dateUntil = cachedToDate[0];
+        cacheUpdate(cacheName, startDate, dateUntil, result);
+        withResult(result, dateUntil, (paging && paging['next']) ? true : false);
+    } else if (paging && paging['next'] && limit > 0) {
+        /* if nothing cached and there is more to load, do */
         $.get(paging['next'], function (data) {
-            _getSomeMore(data, result, limit-1, processResponse, withResult);
+            _getSomeMore(startDate, data, result, cacheName, endDate, limit-1, processResponse, withResult);
         });
     } else {
-        withResult(result, (paging && paging['next']) ? true : false);
+        /* if there is nothing cached and nothing more to load, do */
+        cacheUpdate(cacheName, startDate, endDate, result);
+        withResult(result, endDate, (paging && paging['next']) ? true : false);
     }
 }
 
-function captureLink(text) {
-    log("captureLink " + text);
-    var client = new ZeroClipboard( document.getElementById(text) );
-
-    client.on( "ready", function( readyEvent ) {
-         alert( "ZeroClipboard SWF is ready!" );
-
-        client.on( "aftercopy", function( event ) {
-            // `this` === `client`
-            // `event.target` === the element that was clicked
-            event.target.style.display = "none";
-            alert("Copied : " + event.data["text/plain"] );
-        } );
-    } );
+function cacheEntryFrom(cacheName, date) {
+    var groupCacheStr = localStorage.getItem(cacheName);
+    if (groupCacheStr) {
+        var groupCache = JSON.parse(groupCacheStr);
+        for (var i=0; i<groupCache.length; i++) {
+            var entry = groupCache[i];
+            console.log("compare dateStart", entry.dateStart, "with ", date, "and ", entry.dateEnd);
+            if (entry.dateStart >= date && date > entry.dateEnd) {
+                var filtered = entry.files.filter(function (elem, index, arr) {
+                    return (elem.date <= date);
+                });
+                return [entry.dateEnd, filtered];
+            }
+        }
+    }
+    return null;
 }
+
+function cacheUpdate(cacheName, dateStart, dateEnd, result) {
+    var groupCacheStr = localStorage.getItem(cacheName);
+    if (!groupCacheStr) {
+        groupCacheStr = '[]';
+    }
+    var groupCache = JSON.parse(groupCacheStr);
+    groupCache.push({dateStart: dateStart, dateEnd: dateEnd, files: result});
+    groupCache = combineRanges(groupCache);
+    console.log("groupCache", groupCache);
+
+    localStorage.setItem(cacheName, JSON.stringify(groupCache));
+}
+
+function combineRanges(xs) {
+    console.assert(xs);
+    xs.sort(dynamicSort('-dateStart'));
+    var current = xs[0];
+    var combined = [];
+    for (var i=1; i<xs.length; i++) {
+        var x = xs[i];
+        if (current.dateStart >= x.dateStart && x.dateStart >= current.dateEnd) {
+            current.dateStart = max(current.dateStart, x.dateStart);
+            current.dateEnd = min(current.dateEnd, x.dateEnd);
+            current.files = combineOn('date', current.files, x.files);
+        } else {
+            combined.push(current);
+            current = x;
+        }
+    }
+    combined.push(current);
+    return combined;
+}
+
+function combineOn(field, xs, ys) {
+    var combinedMap = listToMap(xs, field);
+    for (var j=0; j<ys.length; j++) {
+        var y = ys[j];
+        combinedMap[y[field]] = y;
+    }
+    return mapValues(combinedMap);
+}
+
+//I mean really, the only thing that js has is `Math.min`!!?
+function min(x,y) {
+    return x < y ? x : y;
+}
+
+function max(x,y) {
+    return x > y ? x : y;
+}
+// I seriously hate javascript!
+function mapValues(map) {
+    var res = [];
+    for (var key in map) {
+        res.push(map[key]);
+    }
+    return res;
+}
+
+function listToMap(list, field) {
+    var map = {};
+    for (var i=0; i<list.length; i++) {
+        map[list[i][field]] = list[i];
+    }
+    return map;
+}
+
+//function captureLink(text) {
+//    log("captureLink " + text);
+//    var client = new ZeroClipboard( document.getElementById(text) );
+//
+//    client.on( "ready", function( readyEvent ) {
+//         alert( "ZeroClipboard SWF is ready!" );
+//
+//        client.on( "aftercopy", function( event ) {
+//            // `this` === `client`
+//            // `event.target` === the element that was clicked
+//            event.target.style.display = "none";
+//            alert("Copied : " + event.data["text/plain"] );
+//        } );
+//    } );
+//}
 
 function processPosts(data) {
     var posts = [];
