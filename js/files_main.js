@@ -8,20 +8,23 @@ function files_main(groupId, postsEndDate, filesEndDate) {
         console.log('filesFrom', filesFromPosts, 'analysedUntil', analysedUntil, 'wasMorePosts', wasMorePosts);
 
         var limitReqFiles = 20;
+        /*
         getSome('/' + groupId + '/files', limitReqFiles, 'cacheFiles_'+groupId, processFiles, function (fbFiles, filesUntil, wasMoreFiles) {
             if (wasMorePosts || wasMoreFiles) {
                 console.log('wasMorePosts', wasMorePosts, 'wasMoreFiles', wasMoreFiles);
-                var dateOfNextThingsToLoad = Date.parse(analysedUntil)-2000; /* that's -2 seconds */
+                var dateOfNextThingsToLoad = Date.parse(analysedUntil)-2000;
                 var showMore = $("<a/>").attr("href", '#files_'+groupId+'_'+dateOfNextThingsToLoad+'_'+10)
                     .attr("title", "Show more").html("Extract from posts before "+ (new Date(analysedUntil)).toLocaleString());
                 $("#groups").append(showMore);
             }
+            */
 
-            var files = filesFromPosts.concat(fbFiles);
+          //  var files = filesFromPosts.concat(fbFiles);
+            var files = filesFromPosts;
             console.log(files);
             sortByDate(files);
             files_present(files);
-        });
+        //});
 
     });
 
