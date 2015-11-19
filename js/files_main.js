@@ -91,9 +91,12 @@ function getSome(fbApiUrl, limit, cacheName, processResponse, withResult) {
     FB.api(fbApiUrl, function (response) {
         console.log("fb api", fbApiUrl, response);
         var data = response['data'];
-        var startDate = data[0]['updated_time'];
-        var endDate = data[data.length-1]['updated_time'];
-        _getSomeMore(startDate, response, [], cacheName, endDate, limit, processResponse, withResult);
+        console.log(data);
+        if (data) {
+            var startDate = data[0]['updated_time'];
+            var endDate = data[data.length-1]['updated_time'];
+            _getSomeMore(startDate, response, [], cacheName, endDate, limit, processResponse, withResult);
+        }
     });
 }
 /** withResult([files], '2015-02-05T12:13:08+0000', true) */
